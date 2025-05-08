@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import MobX from './pages/MobX';
 import Zustand from './pages/Zustand';
 import PMEditor from './pages/PMEditor';
+import Test1 from './pages/Test1';
 
 const router = createBrowserRouter([
 	{
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
 	{
 		path: '/pm-editor',
 		element: <PMEditor />,
+	},
+	{
+		path: '/test1',
+		element: <Test1 />,
 	},
 	{
 		path: '*',
