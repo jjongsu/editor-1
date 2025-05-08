@@ -3,6 +3,7 @@ import MobX from './pages/MobX';
 import Zustand from './pages/Zustand';
 import PMEditor from './pages/PMEditor';
 import Test1 from './pages/Test1';
+import Test2 from './pages/Test2';
 
 const router = createBrowserRouter([
 	{
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
 	{
 		path: '/test1',
 		element: <Test1 />,
+	},
+	{
+		path: '/test2',
+		element: <Test2 />,
 	},
 	{
 		path: '*',
