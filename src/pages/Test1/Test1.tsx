@@ -41,16 +41,16 @@ export default function Test1() {
 			dispatchTransaction(tr) {
 				const newState = _view.state.apply(tr);
 				_view.updateState(newState);
-
-				// const serializer = DOMSerializer.fromSchema(newState.schema);
-				// const fragment = serializer.serializeFragment(_view.state.doc.content);
-
-				// if (contentRef.current) {
-				// 	contentRef.current.innerHTML = '';
-				// 	contentRef.current.appendChild(fragment);
-				// }
 			},
 		});
+
+		// const serializer = DOMSerializer.fromSchema(newState.schema);
+		// const fragment = serializer.serializeFragment(_view.state.doc.content);
+
+		// if (contentRef.current) {
+		// 	contentRef.current.innerHTML = '';
+		// 	contentRef.current.appendChild(fragment);
+		// }
 		setView(_view);
 
 		return () => {

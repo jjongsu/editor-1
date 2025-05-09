@@ -498,3 +498,25 @@ ul {
 	padding-inline-start: 40px;
 	unicode-bidi: isolate;
 }
+
+.cursor-widget {
+	color: red;
+	font-size: 16px;
+	margin-left: 2px;
+}
+
+.todo-highlight {
+	background-color: yellow;
+}
+
+.editor img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+	display: inline;
+	vertical-align: bottom;
+}

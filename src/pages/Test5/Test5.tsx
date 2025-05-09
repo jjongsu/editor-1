@@ -154,7 +154,7 @@ export default function Test5() {
 	return (
 		<div className="p-4 h-full w-full">
 			<div className="flex w-full items-center">
-				<div>test-prosemirror(plugin-글자수에 따른 Transaction filtering)</div>
+				<div>test-prosemirror(dark-mode)</div>
 				<button className="border px-2 rounded-full" onClick={handleMode}>
 					{mode} mode
 				</button>
