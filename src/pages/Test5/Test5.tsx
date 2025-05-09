@@ -1,15 +1,22 @@
 import { EditorState, Plugin } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
-import { DOMSerializer, DOMParser, Schema } from 'prosemirror-model';
-import { schema } from 'prosemirror-schema-basic';
+import { DOMParser, Schema } from 'prosemirror-model';
 import { exampleSetup } from 'prosemirror-example-setup';
 import { keymap } from 'prosemirror-keymap';
 import { baseKeymap } from 'prosemirror-commands';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { clsx } from 'clsx';
 
-export default function Test3() {
+export default function Test5() {
 	const editorRef = useRef<HTMLDivElement | null>(null);
 	const contentRef = useRef<HTMLDivElement | null>(null);
+	const [mode, setMode] = useState<'light' | 'dark'>('light');
+
+	const handleMode = () =>
+		setMode((prev) => {
+			if (prev === 'dark') return 'light';
+			else return 'dark';
+		});
 
 	useEffect(() => {
 		if (!editorRef.current || !contentRef.current) return;
@@ -22,7 +29,7 @@ export default function Test3() {
 					group: 'block',
 					content: 'text*',
 					parseDOM: [{ tag: 'p' }],
-					toDOM(node) {
+					toDOM() {
 						return ['p', 0];
 					},
 				},
@@ -30,7 +37,7 @@ export default function Test3() {
 					group: 'block',
 					content: 'block+',
 					parseDOM: [{ tag: 'blockquote' }],
-					toDOM(node) {
+					toDOM() {
 						return ['blockquote', 0];
 					},
 				},
@@ -80,15 +87,21 @@ export default function Test3() {
 			},
 			// marks: schema.spec.marks,
 		});
-
 		function maxSizePlugin(max: number) {
 			let charCountEl: HTMLDivElement;
 
 			return new Plugin({
-				props: {
-					editable(state) {
-						return state.doc.content.size < max;
-					},
+				filterTransaction(tr, state) {
+					if (!tr.docChanged) return true;
+
+					const oldSize = state.doc.content.size;
+					const newSize = tr.doc.content.size;
+
+					// 입력으로 인한 크기 증가이고, 최대치를 초과하는 경우 거부
+					if (newSize > max && newSize > oldSize) {
+						return false;
+					}
+					return true;
 				},
 				view(editorView) {
 					// 표시할 엘리먼트 생성
@@ -99,8 +112,7 @@ export default function Test3() {
 					// 표시
 					const updateCharCount = () => {
 						const size = editorView.state.doc.content.size;
-						const editable = editorView.state.doc.content.size < max;
-						charCountEl.textContent = `${size}/${max} 글자 - editable : ${editable}`;
+						charCountEl.textContent = `${size}/${max} 글자`;
 					};
 					updateCharCount();
 
@@ -130,14 +142,6 @@ export default function Test3() {
 			dispatchTransaction(tr) {
 				const newState = _view.state.apply(tr);
 				_view.updateState(newState);
-
-				// const serializer = DOMSerializer.fromSchema(newState.schema);
-				// const fragment = serializer.serializeFragment(_view.state.doc.content);
-
-				// if (contentRef.current) {
-				// 	contentRef.current.innerHTML = '';
-				// 	contentRef.current.appendChild(fragment);
-				// }
 			},
 		});
 
@@ -150,9 +154,12 @@ export default function Test3() {
 	return (
 		<div className="p-4 h-full w-full">
 			<div className="flex w-full items-center">
-				<div>test-prosemirror(글자수에 따른 view props editable 변경)</div>
+				<div>test-prosemirror(plugin-글자수에 따른 Transaction filtering)</div>
+				<button className="border px-2 rounded-full" onClick={handleMode}>
+					{mode} mode
+				</button>
 			</div>
-			<div className="p-4 bg-white border rounded-md editor relative" ref={editorRef}></div>
+			<div className={clsx('p-4 bg-white border rounded-md editor relative', mode)} ref={editorRef}></div>
 			<div ref={contentRef}>
 				<h1>Heading1</h1>
 				<h2>Heading2</h2>

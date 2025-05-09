@@ -6,7 +6,7 @@ import { keymap } from 'prosemirror-keymap';
 import { baseKeymap } from 'prosemirror-commands';
 import { useEffect, useRef } from 'react';
 
-export default function Test3() {
+export default function Test4() {
 	const editorRef = useRef<HTMLDivElement | null>(null);
 	const contentRef = useRef<HTMLDivElement | null>(null);
 
@@ -79,26 +79,34 @@ export default function Test3() {
 			},
 			// marks: schema.spec.marks,
 		});
-
 		function maxSizePlugin(max: number) {
 			let charCountEl: HTMLDivElement;
 
 			return new Plugin({
-				props: {
-					editable(state) {
-						return state.doc.content.size < max;
-					},
+				filterTransaction(tr, state) {
+					// 커서가 움직이거나 text 드래그와 같은 이벤트는 skip
+					if (!tr.docChanged) return true;
+
+					const oldSize = state.doc.content.size;
+					const newSize = tr.doc.content.size;
+
+					// 입력으로 인한 크기 증가이고, 최대치를 초과하는 경우 거부
+					if (newSize > max && newSize > oldSize) {
+						return false;
+					}
+					return true;
 				},
 				view(editorView) {
 					// 표시할 엘리먼트 생성
 					charCountEl = document.createElement('div');
-					charCountEl.style.cssText = 'position: absolute; bottom: 5px; right: 10px; font-size: 12px; color: gray;';
+					charCountEl.style.cssText = 'position: absolute; bottom: 5px; right: 10px; font-size: 12px; ';
 					editorView.dom.parentNode?.appendChild(charCountEl);
 
 					// 표시
 					const updateCharCount = () => {
 						const size = editorView.state.doc.content.size;
 						charCountEl.textContent = `${size}/${max} 글자`;
+						charCountEl.style.color = size === max ? 'red' : 'gray';
 					};
 					updateCharCount();
 
@@ -140,7 +148,7 @@ export default function Test3() {
 	return (
 		<div className="p-4 h-full w-full">
 			<div className="flex w-full items-center">
-				<div>test-prosemirror(schema)</div>
+				<div>test-prosemirror(plugin-글자수에 따른 Transaction filtering)</div>
 			</div>
 			<div className="p-4 bg-white border rounded-md editor relative" ref={editorRef}></div>
 			<div ref={contentRef}>
