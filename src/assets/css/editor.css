@@ -479,3 +479,12 @@ li.ProseMirror-selectednode:after {
 	border: 2px solid #8cf;
 	pointer-events: none;
 }
+
+ul {
+	display: block;
+	list-style-type: disc;
+	margin-block-start: 1em;
+	margin-block-end: 1em;
+	padding-inline-start: 40px;
+	unicode-bidi: isolate;
+}
