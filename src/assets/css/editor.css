@@ -490,14 +490,14 @@ li.ProseMirror-selectednode:after {
 	pointer-events: none;
 }
 
-ul {
+/* ul {
 	display: block;
 	list-style-type: disc;
 	margin-block-start: 1em;
 	margin-block-end: 1em;
 	padding-inline-start: 40px;
 	unicode-bidi: isolate;
-}
+} */
 
 .cursor-widget {
 	color: red;
@@ -519,4 +519,19 @@ embed,
 object {
 	display: inline;
 	vertical-align: bottom;
+}
+
+ul[data-type='taskList'] > li {
+	display: flex;
+	width: 100%;
+	justify-items: baseline;
+}
+
+ul[data-type='taskList'] > li > div > p {
+	margin-top: 0px !important;
+}
+
+ul[data-type='taskList'],
+ol[data-type='taskList'] {
+	padding-left: 0px;
 }
