@@ -9,6 +9,7 @@ import { baseKeymap, toggleMark } from 'prosemirror-commands';
 import { useEffect, useRef } from 'react';
 import useControlEditor from '../../hooks/useControlEditor';
 import { marks } from './check/mark';
+import { customKeymap } from './check/customKeymap';
 
 export default function Test7() {
 	const editorRef = useRef<HTMLDivElement | null>(null);
@@ -37,13 +38,7 @@ export default function Test7() {
 
 		const _state = EditorState.create({
 			doc: DOMParser.fromSchema(mySchema).parse(contentRef.current),
-			plugins: [
-				keymap(baseKeymap),
-				...exampleSetup({ schema: mySchema }),
-				keymap({
-					'Mod-k': toggleMark(mySchema.marks.del),
-				}),
-			],
+			plugins: [keymap(baseKeymap), ...exampleSetup({ schema: mySchema }), customKeymap(mySchema)],
 		});
 
 		const _view = new EditorView(editorRef.current, {
