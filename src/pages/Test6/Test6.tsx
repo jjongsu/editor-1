@@ -218,7 +218,7 @@ export default function Test6() {
 					</li>
 					<li>
 						<label>
-							<input type="checkbox" checked />
+							<input type="checkbox" defaultChecked={true} />
 							<span></span>
 						</label>
 						<div>
