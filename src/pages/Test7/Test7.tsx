@@ -2,10 +2,9 @@ import { EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { Schema, DOMParser } from 'prosemirror-model';
 import { schema } from 'prosemirror-schema-basic';
-// import { addListNodes } from 'prosemirror-schema-list';
 import { exampleSetup } from 'prosemirror-example-setup';
 import { keymap } from 'prosemirror-keymap';
-import { baseKeymap, toggleMark } from 'prosemirror-commands';
+import { baseKeymap } from 'prosemirror-commands';
 import { useEffect, useRef } from 'react';
 import useControlEditor from '../../hooks/useControlEditor';
 import { marks } from './check/mark';
@@ -21,7 +20,6 @@ export default function Test7() {
 	useEffect(() => {
 		if (!editorRef.current || !contentRef.current) return;
 		const mySchema = new Schema({
-			// nodes: addListNodes(schema.spec.nodes, 'paragraph block*', 'block'),
 			nodes: schema.spec.nodes,
 			marks: {
 				...marks,
@@ -33,8 +31,6 @@ export default function Test7() {
 				},
 			},
 		});
-
-		console.log(schema.spec.marks, baseKeymap, exampleSetup({ schema: mySchema }));
 
 		const _state = EditorState.create({
 			doc: DOMParser.fromSchema(mySchema).parse(contentRef.current),
