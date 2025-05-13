@@ -10,6 +10,7 @@
 5. Dark mode 적용(css활용)
 6. taskList 구현(tiptap editor 구조 참고)
 7. del mark 구현
+8. dark mode (doc의 attrs theme 설정 방식)
 
 ---
 
