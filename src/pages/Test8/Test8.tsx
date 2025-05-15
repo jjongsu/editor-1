@@ -25,6 +25,8 @@ export default function Test8() {
 
 		view.dispatch(tr);
 
+		console.log('current doc : ', view.state.doc);
+
 		// 로컬 상태 업데이트
 		setMode(newTheme);
 	}, [mode, view]);

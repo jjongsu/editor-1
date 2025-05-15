@@ -10,6 +10,8 @@ import Test5 from './pages/Test5';
 import Test6 from './pages/Test6';
 import Test7 from './pages/Test7';
 import Test8 from './pages/Test8';
+import Test9 from './pages/Test9';
+import Test10 from './pages/Test10';
 
 const router = createBrowserRouter([
 	{
@@ -59,6 +61,14 @@ const router = createBrowserRouter([
 	{
 		path: '/test8',
 		element: <Test8 />,
+	},
+	{
+		path: '/test9',
+		element: <Test9 />,
+	},
+	{
+		path: '/test10',
+		element: <Test10 />,
 	},
 	{
 		path: '*',
